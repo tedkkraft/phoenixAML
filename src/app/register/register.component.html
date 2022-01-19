@@ -1,0 +1,135 @@
+<div class="container">
+  <h1>Register</h1>
+</div>
+
+<!--
+<div class="container">
+<form>
+  <div class="form-group">
+    <label for="registerEmail">E-mail Address</label>
+    <input type="email" class="form-control" id="registerEmail" name="registerEmail" #registerEmail>
+  </div>
+  <div class="form-group">
+    <label for="registerUser">User</label>
+    <input class="form-control" id="registerUser" name="registerUser" #registerUser>
+  </div>
+  <div class="form-group">
+    <label for="registerPswd">Password</label>
+    <input type="password" class="form-control" id="registerPswd" name="registerPswd" #registerPswd>
+  </div>
+  <button type="submit" class="btn btn-primary" (click)="register(registerEmail.value, registerUser.value, registerPswd.value)">Register</button>
+</form>
+</div>
+
+<div class="container">
+<mat-slider min="1" max="100" step="1" value="1"></mat-slider>
+</div>
+
+<div class="container">
+<mat-card>
+  <mat-card-content>
+    <h2 class="example-h2">Slider configuration</h2>
+
+    <section class="example-section">
+      <label class="example-margin">Color:</label>
+      <mat-radio-group [(ngModel)]="color">
+        <mat-radio-button class="example-margin" value="primary">
+          Primary
+        </mat-radio-button>
+        <mat-radio-button class="example-margin" value="accent">
+          Accent
+        </mat-radio-button>
+        <mat-radio-button class="example-margin" value="warn">
+          Warn
+        </mat-radio-button>
+      </mat-radio-group>
+    </section>
+
+    <section class="example-section">
+      <mat-checkbox class="example-margin" [(ngModel)]="checked">Checked</mat-checkbox>
+    </section>
+
+    <section class="example-section">
+      <mat-checkbox class="example-margin" [(ngModel)]="disabled">Disabled</mat-checkbox>
+    </section>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="result">
+  <mat-card-content>
+    <h2 class="example-h2">Result</h2>
+
+    <section class="example-section">
+      <mat-slide-toggle
+        class="example-margin"
+        [color]="color"
+        [checked]="checked"
+        [disabled]="disabled">
+        Slide me!
+      </mat-slide-toggle>
+    </section>
+  </mat-card-content>
+</mat-card>
+</div>
+-->
+
+<div class="container">
+  <div class="row">
+    <mat-vertical-stepper [linear]=true #stepper>
+      <mat-step [stepControl]="emailFormGroup">
+        <form [formGroup]="emailFormGroup">
+          <ng-template matStepLabel>Email</ng-template>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input id="email" matInput placeholder="email" formControlName="firstCtrl" required>
+            <!-- <div *ngIf="emailFormGroup.get('firstCtrl').errors"><br/></div> -->
+            <mat-error *ngIf="emailFormGroup.get('firstCtrl').errors && emailFormGroup.get('firstCtrl')?.errors.unavailableEmail && (emailFormGroup.touched || emailFormGroup.dirty)">Email already registered</mat-error>
+            <mat-error *ngIf="emailFormGroup.get('firstCtrl').errors && emailFormGroup.get('firstCtrl')?.errors.forbiddenEmail && (emailFormGroup.touched || emailFormGroup.dirty)">Invalid Email</mat-error>
+          </mat-form-field>
+          <div>
+            <button *ngIf="!emailFormGroup.get('firstCtrl').errors" mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="userNameFormGroup">
+        <form [formGroup]="userNameFormGroup">
+          <ng-template matStepLabel>Choose User Name</ng-template>
+          <mat-form-field>
+            <mat-label>User Name</mat-label>
+            <input matInput formControlName="secondCtrl" placeholder="user name" required>
+            <mat-error *ngIf="userNameFormGroup.get('secondCtrl').errors && userNameFormGroup.get('secondCtrl')?.errors.unavailableUserName && (userNameFormGroup.touched || userNameFormGroup.dirty)">That user name is taken</mat-error>
+            <mat-error *ngIf="userNameFormGroup.get('secondCtrl').errors && userNameFormGroup.get('secondCtrl')?.errors.forbiddenUserName && (userNameFormGroup.touched || userNameFormGroup.dirty)">Invalid user name (up to 40 alphanumeric chars)</mat-error>
+          </mat-form-field>
+          <div>
+            <button *ngIf="!userNameFormGroup.get('secondCtrl').errors" mat-button matStepperPrevious>Back</button>
+            <button *ngIf="!userNameFormGroup.get('secondCtrl').errors" mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="passwordFormGroup">
+        <form [formGroup]="passwordFormGroup">
+          <ng-template matStepLabel>Choose a password</ng-template>
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="thirdCtrl" placeholder="password"
+                   required>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <p>You are now done.</p>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="stepper.reset()">Reset</button>
+          <button mat-button (click)="register(emailFormGroup.getRawValue(), userNameFormGroup.getRawValue(), passwordFormGroup.getRawValue())">Register</button>
+        </div>
+      </mat-step>
+    </mat-vertical-stepper>
+
+  </div>
+</div>

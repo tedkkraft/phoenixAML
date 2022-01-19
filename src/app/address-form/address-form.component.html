@@ -1,0 +1,8 @@
+<label>
+    Address:
+    <input type="text" [formControl]="addressForm">
+</label>
+
+<div *ngIf="addressForm.errors.minlength">
+    Address must be at least 34 characters long.
+</div>

@@ -1,0 +1,34 @@
+<br/>
+<div class="login-container">
+  <h1>Phoenix AML Login</h1>
+
+  <div class="alert alert-danger" role="alert" *ngIf="message">
+    {{ message }}
+  </div>
+
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="form-group">
+      <label for="inputUser">Username</label>
+      <input class="form-control mat-elevation-z1" id="inputUser"
+            [formControl]="loginForm.controls['user']"
+            name="inputUser" #inputUser>
+    </div>
+    <div class="form-group">
+      <label for="inputPswd">Password</label>
+      <input type="password" class="form-control mat-elevation-z1" id="inputPswd"
+            [formControl]="loginForm.controls['password']"
+            name="inputPswd" #inputPswd>
+    </div>
+    <button type="submit" class="btn btn-primary mat-elevation-z2">Submit</button>
+  </form>
+
+  <br/>
+
+  <div> 
+    Don't have an account? <a routerLink="/register">Register here</a>
+  </div>
+</div>
+
+
+
+

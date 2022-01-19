@@ -1,0 +1,16 @@
+.nav-logo {
+  width: max-content;
+  margin-bottom: -1px;
+  font-size: large;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffffff
+}
+
+.nav-background-color {
+  background-color: #F7931A;
+}
+
+.nav-font-color {
+  color: #ffffff;
+}

@@ -1,0 +1,28 @@
+<!-- Navbar that renders only when a user is logged in -->
+<nav class="navbar navbar-expand-md navbar-light nav-background-color" *ngIf="authService.isLoggedIn()">
+  <div>
+    <p class="nav-logo nav-font-color navbar-brand">Phoenix AML</p>
+  </div>
+  <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+    <ul ngbNav #nav="ngbNav" class="navbar-nav navLinks ml-auto">
+
+      <!-- Displays active user in the Navbar-->
+      <li ngbNavItem="link.path" class="nav-link nav-font-color" *ngFor="let link of rightLinks">
+        <a ngbNavLink>Logged in as <b>{{ authService.getUser() }}</b></a>
+      </li>
+      
+      <!-- Logout link-->
+      <li ngbNavItem="link.path" class="nav-link nav-font-color" *ngFor="let link of rightLinks">
+        <a ngbNavLink  (click)="logout()" routerLink="/{{link.path}}">{{ link.title }}</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- router-outlet is a placeholder that Angular dynamically fills based on the current router state. -->
+<!-- router-outlet emits an activate event when a new component is instantiated, and a deactivate event when a component is destroyed -->
+<div id="content">
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</div>

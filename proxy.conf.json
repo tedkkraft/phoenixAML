@@ -1,0 +1,9 @@
+[
+  {
+    "context": ["/register", "/token", "/txns", "/checkuser", "/checkemail"],
+    "target": "https://www.phoenixaml.com",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+]

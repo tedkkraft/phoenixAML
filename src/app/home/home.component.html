@@ -1,0 +1,114 @@
+<div class="wrapper">
+
+  <!-- Wallet Address Input Form -->
+  <div class="container wallet-form">
+    <form class="row justify-content-center pt-10">
+      <div class="col-auto pl-0">
+        <label for="inputWallet" class="col-form-label">Enter Bitcoin Public Address:</label>
+        <input class="form-control mat-elevation-z1" id="inputWallet" name="inputWallet" #inputWallet>
+      </div>
+      <div class="col-auto pl-0">
+        <button type="submit" class="btn btn-primary mat-elevation-z2" (click)="getTxns(inputWallet.value)">Submit</button>
+      </div>
+    </form>
+  </div>
+  <br/>
+
+  <div *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center; background: #F0F2F5;">
+    <mat-progress-spinner color="primary" mode="indeterminate">
+    </mat-progress-spinner>
+  </div>
+
+  <!-- Bitcoin Public Address Report, Account Info -->
+  <div id="content" #content class="report-container mb-3">
+    <div style="display:flex; flex-direction: row;" [style.display]="isVisible ? 'block' : 'none'">
+      <mat-card class="summary-card mat-elevation-z6">
+        <mat-card-title class="m-3">Bitcoin Public Address Report</mat-card-title>
+        <br>
+        <mat-card-content>
+          <p class="left-align"><span class="bold">Client Name: </span>{{ clientId }}</p>
+          <p class="right-align"><span class="bold">Public Address: </span>{{ walletAddress }} </p>
+          <div style="clear: both;"></div>
+        </mat-card-content>
+        <mat-card-content>
+          <p class="left-align"><span class="bold">Client Account Name: </span>Need Info</p>
+          <p class="right-align"><span class="bold">Transactions: </span>{{ nTxns }}</p>
+          <div style="clear: both;"></div>
+        </mat-card-content>
+        <mat-card-content>
+          <p class="left-align"><span class="bold">Auxillary Information: </span>Need Info</p>
+          <p class="right-align"><span class="bold">Total Sent: </span>{{ totalSent }}  BTC</p>
+          <div style="clear: both;"></div>
+        </mat-card-content>
+        <mat-card-content>
+          <p class="left-align"><span class="bold">Date: </span>{{ date | date}}</p>
+          <p class="right-align"><span class="bold">Total Received: </span>{{ totalRecieved }}  BTC</p>
+          <div style="clear: both;"></div>
+        </mat-card-content>
+        <mat-card-content>
+          <p class="left-align"><span class="bold">Unique Phoenix Report ID: </span>{{ uniquePhoenixReportId }}</p>
+          <p class="right-align"><span class="bold">Final Balance: </span>{{ balance }} BTC</p>
+          <div style="clear: both;"></div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <br/>
+  <!-- Bitcoin Public Address Report, Transactions Table-->
+  <div class="report-detail mat-elevation-z6" [style.display]="isVisible ? 'block' : 'none'">
+
+    <!-- Transactions -->
+    <div class="table-container">
+      <table mat-table [dataSource]="dataSource"
+            matSort matSortActive="received" matSortDisableClear matSortDirection="desc">
+
+        <ng-container matColumnDef="row_number">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Index </th>
+          <td mat-cell *matCellDef="let i = index">
+          {{this.paginator.pageIndex == 0 ? i + 1 : 1 + i + this.paginator.pageIndex * this.paginator.pageSize}}</td>
+        </ng-container>
+      
+        <ng-container matColumnDef="time_received">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let row">{{row.time_received}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="btc">
+          <th mat-header-cell *matHeaderCellDef>Amount</th>
+          <td mat-cell *matCellDef="let row">{{row.btc}} BTC</td>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let row">{{row.type}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="legality">
+          <th mat-header-cell *matHeaderCellDef>Legality</th>
+          <td mat-cell *matCellDef="let row"
+            [ngClass]="{'illicit-span': row.legality == 'Illicit', 'licit-span': row.legality == 'Licit'}">
+            <ng-container *ngIf="row.legality != 'Illicit'; else flag">
+              {{row.legality}}
+            </ng-container>
+            <ng-template #flag><span style="color: tomato;"><i class="fas fa-exclamation-triangle"></i></span></ng-template>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+
+    <!-- Table Footer; pagination, PDF button -->
+    <div class="row paginatorRow">
+      <div>
+        <input type="button" value="Download PDF" class="btn btn-success pdf-btn" (click)="printPDF()">
+      </div>
+      <div>
+        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+    </div>
+  </div>
+
+</div>
